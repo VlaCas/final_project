@@ -16,9 +16,8 @@ function Register() {
     e.preventDefault();
     const user = { name, email, password };
     try {
-      console.log('antes de la peticion')
-      const response = await axios.post('http://localhost:27017/api/registerUser', user);
-      console.log(response.data.message);
+      const response = await axios.post('http://localhost:7117/api/registerUser', user);
+      console.log(response.data);
       if (msg && msg.current)
         msg.current.style.top = '10px'
       setTimeout(() => {
@@ -71,7 +70,7 @@ function Register() {
           </div>
           <div className='email container-inputRegister'>
             <label htmlFor='email'>Email</label>
-            <input type='text' id='email' className='pl-2' name='email' placeholder='Ingrese su email' spellCheck='false' required pattern='^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$' onInvalid={(e) => { message(e, 'email') }} onChange={(e) => {setEmail(e.target.value); setEmailInUse(false)}} />
+            <input type='text' id='email' className='pl-2' name='email' placeholder='Ingrese su email' spellCheck='false' required pattern='^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$-u' onInvalid={(e) => { message(e, 'email') }} onChange={(e) => {setEmail(e.target.value); setEmailInUse(false)}} />
             { emailInUse && <p className='error'>Ya éste correo está en uso.</p> }
           </div>
           <div className='password container-inputRegister'>

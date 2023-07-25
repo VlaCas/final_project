@@ -1,14 +1,21 @@
 // Importing the required modules and controllers
 import { Router } from 'express';
-import { registerUser } from '../Controller/user.controller.js'; 
+import { registerUser, loginUser, logoutUser, profileUser } from '../Controller/user.controller.js'; 
+import { authRequired } from '../Middlewares/validateToken.js';
 
 const router = Router();
 
-//const { loginUser, logoutUser } = require('../Controller/Auth.js')
-//const jwt = require('jsonwebtoken');
-
 // Register user
 router.post('/registerUser', registerUser);
+
+// Login user
+router.post('/loginUser', loginUser);
+
+// Logout user
+router.post('/logoutUser', logoutUser);
+
+// Verify profile
+router.get('/profileUser', authRequired, profileUser);
 
 // Export the router
 export default router;

@@ -48,20 +48,12 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     required: false,
     default: "user"
-  },
+  }
 
-  creationDate: {
-    type: Date,
-    default: Date.now,
-    inmutable: true
-  },
-
-  updatedDate: {
-    type: Date,
-    default: Date.now
-  },
-
-}, { versionKey: false });
+}, { 
+  versionKey: false,
+  timestamps: true
+});
 
 // Use a Mongoose middleware to encrypt the password before saving it to the database and to Update the user's update date.
 userSchema.pre("save", function(next) {
@@ -70,7 +62,7 @@ userSchema.pre("save", function(next) {
   const user = this;
 
   // Update the user's update date.
-  user.updatedDate = Date.now();
+  user.updatedAt = Date.now();
 
   // Encrypt the password and replace it in the user object.
   const hashedPassword = bcrypt.hashSync(user.password, 10);
@@ -80,7 +72,7 @@ userSchema.pre("save", function(next) {
 });
 
 // Define a method for validating the user's password.
-userSchema.methods.checkPassword = function (password) {
+userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
