@@ -8,7 +8,7 @@ export function createAccessToken(payload){
     jwt.sign(
       payload,
       process.env.JWT_SECRET_KEY,
-      { expiresIn: 60 },
+      { expiresIn: '1d' },
       (error, token) => {
         if (error) reject(error);
         resolve(token)

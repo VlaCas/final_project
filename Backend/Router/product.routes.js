@@ -1,7 +1,7 @@
 // Importing the required modules and controllers
 import { Router } from 'express';
 import { getProducts, getProduct, createProduct, deleteProduct, updateProduct } from '../Controller/product.controller.js'; 
-import { authRequired } from '../Middlewares/validateToken.js';
+import { authRequired } from '../Middlewares/validateToken.middleware.js';
 
 const router = Router();
 
