@@ -1,116 +1,54 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
-import Axios from "axios";
-import "../resources/login.css";
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import '../style/register.css';
 
-export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { setLoggedIn } = useContext(AuthContext);
-  const [incEmail, setIncEmail] = useState(false);
-  const [incPassword, setIncPassword] = useState(false);
-  const navigate = useNavigate();
-  const userID = useParams();
-  const msg = useRef();
+function Login() {
 
-  useEffect(() => {
-    if (userID.userID) {
-      const verifyEmail = async () => {
-        try {
-          const response = await Axios.patch(`https://legion-dark1.com/user/${userID.userID}`);
-          //console.log(response.data.message);
-          if (msg && msg.current)
-            msg.current.style.top = "10px"
-          msg.current.innerText = "¡Su correo ha sido verificado, ya puede iniciar sesión!"
-          setTimeout(() => {
-            if (msg && msg.current)
-              msg.current.style.top = "-100px"
-          }, 5000);
-        } catch (error) {
-          console.error("esto no corrió: " + error);
-        }
-      };
-      verifyEmail();
-    }
-  }, [userID])
+	const { register, handleSubmit, watch, formState: { errors }, } = useForm();
+	const onSubmit = handleSubmit((data) => {
+		console.log(data)
+	});
 
-  const hadleLogin = async (e) => {
-    e.preventDefault();
-    const credentials = { email, password };
-    try {
-      const response = await Axios.post("https://legion-dark1.com/userLogin", credentials);
-      //console.log(response.data);
-      const { token } = response.data;
-      const { role } = response.data;
-
-      // Almacenar el role en el Local Storage
-      localStorage.setItem("role", role);
-      localStorage.setItem("token", token);
-
-      if (role === "admin") {
-        navigate("/paneladmin/pagos");
-        setLoggedIn(true);
-      } else if (role === "user") {
-        navigate("/inicio");
-        setLoggedIn(true);
-      }
-    } catch (error) {
-      console.error(error);
-      if (error.response.status === 403) {
-        if (msg && msg.current) {
-          msg.current.style.top = "10px"
-          msg.current.innerText = "Hemos enviado un correo de verificación a su Email, por favor verifique su correo para completar el registro."
-          setTimeout(() => {
-            if (msg && msg.current)
-              msg.current.style.top = "-100px"
-          }, 5000);
-        }
-      } else if (error.response.status === 401) {
-        if (error.response.data.message === "Email no registrado")
-          setIncEmail(true);
-        else
-          setIncPassword(true);
-      }
-    }
-  };
-
-  function message(e, input) {
-    if (e.target.validity.valueMissing) {
-      if (input === "email") {
-        e.target.setCustomValidity("Por favor, ingresa tu email.");
-      }
-      else
-        e.target.setCustomValidity("Por favor, ingresa tu contraseña.");
-    } else
-      e.target.setCustomValidity("");
-  }
-
-  return (
-    <section className="flex flex-col sectionLogin lg:flex-row">
-      <span className="message" ref={msg}></span>
-      <section className="flex flex-col items-center justify-center gap-6 lg:gap-12 lg:w-2/4">
-        <h1 className="pt-8 text-3xl font-bold lg:pt-0">Ingrese al sistema</h1>
-        <form className="container flex flex-col bg-[#a3cef1be] w-4/5 rounded-md py-16 px-8 gap-y-6 mb-8 items-center" onSubmit={hadleLogin}>
-          <div className="email container-input">
-            <label htmlFor="email">Email</label>
-            <input type="text" id="email" className="pl-2" name="email" placeholder="Ingrese su email" spellCheck="false" required title="Por favor, ingresa tu email." onInvalid={(e) => { message(e, "email") }} onChange={(e) => { setEmail(e.target.value); setIncEmail(false) }} />
-            {incEmail && <p className="error">Email no registrado.</p>}
-          </div>
-          <div className="password container-input">
-            <label htmlFor="password">Contraseña</label>
-            <input type="password" id="password" className="pl-2" name="password" placeholder="Ingrese su contraseña" spellCheck="false" required title="Por favor, ingresa tu contraseña." onInvalid={(e) => { message(e, "password") }} onChange={(e) => { setPassword(e.target.value); setIncPassword(false) }} />
-            {incPassword && <p className="error">Contraseña incorrecta.</p>}
-          </div>
-          <div className="w-full text-center text-white signIn">
-            <button type="submit" className="w-full font-bold blue-button">Iniciar Sesión</button>
-          </div>
-          <div className="text-center register">
-            <p className="font-bold hover:text-[#0A369D]"><Link to="/password">¿Olvidaste tu contraseña?</Link></p>
-            <p className="">¿Todavía no tienes una cuenta? <Link to="register" className="font-bold hover:text-[#0A369D]">Regístrate.</Link></p>
-          </div>
-        </form>
-      </section>
-    </section>
-  );
+	return (
+		<section className='bg-[#1B1B1B] flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
+			<section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-[55%]'>
+				<div className='flex flex-col gap-10 w-4/5 sm:w-[55%] md:w-full lg:w-4/5 xl:w-4/6'>
+					<h1 className='title-register text-white md:text-6xl lg:pt-0'>Bienvenido</h1>
+					<form className='flex flex-col gap-6 font-medium text-lg' onSubmit={onSubmit}>
+						<div className='w-full flex flex-col gap-2'>
+							<label htmlFor='email' className='text-[#AFAFAF]'>Email</label>
+							<input type="mail" {...register('mail', { required: { value: true, message: "Por favor, ingresa tu Email" }, pattern: { value: "^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$", message: "Email no válido" } })} placeholder='ejemplo@gmail.com' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' />
+						</div>
+						{errors.mail && <span className='span-register'>{errors.mail.message}</span>}
+						<div className='flex flex-col gap-6'>
+							<div className='flex flex-col gap-2'>
+								<label htmlFor='contraseña' className='text-[#AFAFAF]'>Contraseña</label>
+								<input type='password' {...register('password', { required: { value: true, message: "Por favor, ingresa tu Contraseña" }, pattern: { value: "^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$", message: "Contraseña incorrecta" } })} placeholder='Ingrese su contraseña' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' />
+							</div>
+							{errors.password && <span className='span-register'>{errors.password.message}</span>}
+						</div>
+						<div className='w-full'>
+							<button type='submit' className='button-register'><p>Iniciar Sesión</p></button>
+						</div>
+						<div className='flex flex-col xl:flex-row xl:justify-between'>
+							<p className='text-[#555555]'>¿No tienes una cuenta?<Link to='/register' className='font-bold text-[#AFAFAF] pl-2 hover:text-white'>Regístrate</Link></p>
+							<p><Link to='/password' className='font-bold text-[#AFAFAF] hover:text-white xl:pl-3'>¿Olvidaste tu contraseña?</Link></p>
+						</div>
+					</form>
+				</div>
+			</section>
+			<section className="hidden lg:flex lg:flex-col lg:items-center lg:w-2/4">
+				<div className='container-earphone rounded-xl border border-white lg:w-3/4'>
+					<div className='w-full flex content-start h-[10%]'>
+						<img src="./src/assets/Img/logo-digital.png" alt="Digital" className='w-40 h-40 ml-4' />
+					</div>
+					<div className='flex items-center justify-center h-[85%]'>
+						<img src='./src/assets/Img/img-register.png' alt="Auricular" className="lg:w-[95%] lg:h-[420px] xl:h-[500px]" />
+					</div>
+				</div>
+			</section>
+		</section>
+	);
 };
+
+export default Login; 
