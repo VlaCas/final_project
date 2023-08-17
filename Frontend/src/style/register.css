@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,500;0,600;0,800;1,200;1,300;1,500;1,600;1,800&family=Spicy+Rice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;700;800;900&family=Poppins:ital,wght@0,200;0,300;0,500;0,600;0,800;1,200;1,300;1,500;1,600;1,800&family=Spicy+Rice&display=swap');
+
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos generales de la sección de registro */
+.sectionRegister {
+  width: 100%;
+  height: 100vh;
+  font-family: 'Darker Grotesque', sans-serif;
+}
+
+.sectionRegister {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: 300% 300%;
+  background-image: linear-gradient(-45deg, #1C1240 0%, #1C1240 25%, #1B1B1B 51%, #0D0D0D 100%);
+  -webkit-animation: AnimateBG 3s ease infinite;
+  animation: AnimateBG 10s ease infinite;
+}
+
+@-webkit-keyframes AnimateBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes AnimateBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Estilos del contenedor del auricular */
+.container-earphone{
+  background: rgb(27,27,27);
+  background: linear-gradient(180deg, rgba(27,27,27,1) 0%, rgba(27,27,27,1) 50%, rgba(50,22,89,1) 100%);
+}
+
+/* Estilos de sección del formulario */
+.title-register{
+  font-weight: 700;
+  font-size: 2.3rem;
+}
+
+.span-register{
+  color: #c20000;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: -30px;
+}
+
+.button-register {
+  padding: 0.25rem 0.5rem;
+  width: 100%;
+  background-color: #8A3BBF;
+  color: #ffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.button-register p{
+  z-index: 2;
+  position: relative;
+}
+
+.button-register::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #ffff;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  transition: left 0.3s ease, background-color 0.3s ease;
+  z-index: 1;
+}
+
+.button-register:hover::before {
+  left: 0;
+  background-color: #ffff;
+}
+
+.button-register:hover{
+  color: #8A3BBF;
+}
+
+.button-register::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #6e37a6;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  transition: left 0.5s ease, background-color 0.3s ease;
+  z-index: 1;
+}
+
+.button-register:hover::after {
+  left: 0;
+  background-color: #6e37a6;
+}
+
+.button-register:hover{
+  color: #ffff;
+}
+
+input:focus{
+  outline: none;
+  border: 1px solid #8A3BBF;
+}
