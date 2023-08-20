@@ -9,13 +9,23 @@ import NewPassword from './components/NewPassword';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<Routes>
-				<Route path="/register" element={<Register />} />
+    <AuthProvider>
+  		<BrowserRouter>
+  			<Routes>
+
+          <Route path="/" element={<Home/>}/>
+  				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/password" element={<Password />} />
 				<Route path="/newPassword" element={<NewPassword />} />
-			</Routes>
-		</BrowserRouter>
+          <Route path="/login" element={<Login/>}/>
+
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/profile" element={<Profile/>}/>
+          </Route>
+          
+  			</Routes>
+  		</BrowserRouter>
+    </AuthProvider>
 	</React.StrictMode>
 );

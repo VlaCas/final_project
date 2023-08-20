@@ -1,0 +1,81 @@
+import { createContext, useState, useContext, useEffect } from "react";
+import { registerRequest, loginRequest, verifyRequest } from '../Api/auth.js';
+import Cookies from 'js-cookie';
+
+export const AuthContext = createContext();
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within an AuthProvider')
+  return context;
+};
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const handleError = (error = 'There is no token or it is invalid.') => {
+    console.log(error);
+    setLoading(false);
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
+  async function authUser (token) {
+    try {
+      const res = await verifyRequest(token);
+      //console.log(res.data.message)
+
+      if (!res.data) {
+        handleError();
+        return
+      }
+
+      setIsAuthenticated(true);
+      setLoading(false);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+
+  const signup = async (user) => {
+    try {
+      const res = await registerRequest(user);
+      console.log(res.data);
+      setUser(res.data.user);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signin = async (user) => {
+    try {
+      const res = await loginRequest(user);
+      console.log(res.data.message);
+      setUser(res.data.user);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const cookies = Cookies.get();
+
+    if (!cookies.token) {
+      handleError();
+      return
+    };
+
+    authUser(cookies.token);
+  }, [])
+
+  return (
+    <AuthContext.Provider value={{ signup, signin, user, isAuthenticated, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
