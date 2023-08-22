@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from './Context/AuthContext.jsx';
 import './style/index.css';
-import Register from './components/Register.jsx';
-import Login from './components/Login.jsx';
-import Password from './components/Password';
-import NewPassword from './components/NewPassword';
+import ProtectedRoute from './components/ProtectedRoute';
+import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
+import Password from './pages/Password';
+import NewPassword from './pages/NewPassword';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
@@ -13,15 +15,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   		<BrowserRouter>
   			<Routes>
 
-          <Route path="/" element={<Home/>}/>
+          <Route path="/" element={<>Home</>}/>
   				<Route path="/register" element={<Register />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/password" element={<Password />} />
-				<Route path="/newPassword" element={<NewPassword />} />
-          <Route path="/login" element={<Login/>}/>
+					<Route path="/login" element={<Login />} />
+					<Route path="/password" element={<Password />} />
+					<Route path="/newPassword" element={<NewPassword />} />
 
           <Route element={<ProtectedRoute/>}>
-            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/profile" element={<>Profile</>}/>
           </Route>
           
   			</Routes>

@@ -14,9 +14,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({ email: '', password: ''});
+  const [showErrors, setShowErrors] = useState({ email: false, password: false})
 
   const handleError = (error = 'There is no token or it is invalid.') => {
-    console.log(error);
+    //console.log(error);
     setLoading(false);
     setUser(null);
     setIsAuthenticated(false);
@@ -39,26 +41,59 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
   const signup = async (user) => {
     try {
       const res = await registerRequest(user);
-      console.log(res.data);
+      //console.log(res.data);
       setUser(res.data.user);
       setIsAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+
+      const updateErrors = (field, message) => {
+        setErrors((currentErrors) => ({
+          ...currentErrors,
+          [field]: message
+        }));
+      };
+
+      const responseErrors = error.response.data;
+
+      if (responseErrors.email) {
+        updateErrors('email', responseErrors.message);
+      } else {
+        updateErrors('email', '');
+      }
     }
   };
 
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      console.log(res.data.message);
+      //console.log(res.data.message);
       setUser(res.data.user);
       setIsAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+
+      const updateErrors = (field, message) => {
+        setErrors((currentErrors) => ({
+          ...currentErrors,
+          [field]: message
+        }));
+      };
+
+      const responseErrors = error.response.data;
+
+      const fieldsToUpdate = ['email', 'password'];
+
+      fieldsToUpdate.forEach((field) => {
+        if (responseErrors[field]) {
+          updateErrors(field, responseErrors.message);
+        } else {
+          updateErrors(field, '');
+        }
+      });
     }
   };
 
@@ -71,10 +106,23 @@ export const AuthProvider = ({ children }) => {
     };
 
     authUser(cookies.token);
-  }, [])
+  }, []);
+
+  const handleAuthEffect = (navigate) => {
+    if (isAuthenticated) navigate('/');
+
+    const responseErrors = errors;
+
+    ['email', 'password'].forEach((field) => {
+      setShowErrors((currentValue) => ({
+        ...currentValue,
+        [field]: !!responseErrors[field],
+      }));
+    });
+  };
 
   return (
-    <AuthContext.Provider value={{ signup, signin, user, isAuthenticated, loading }}>
+    <AuthContext.Provider value={{ signup, signin, user, isAuthenticated, loading, errors, showErrors, setShowErrors, handleAuthEffect }}>
       {children}
     </AuthContext.Provider>
   );

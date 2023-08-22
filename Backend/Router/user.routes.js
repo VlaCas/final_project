@@ -11,7 +11,7 @@ const router = Router();
 router.post('/registerUser', validateSchema(registerSchema), registerUser);
 
 // Login user
-router.post('/loginUser', validateSchema(loginSchema), loginUser);
+router.post('/loginUser', loginUser);
 
 // Logout user
 router.post('/logoutUser', logoutUser);

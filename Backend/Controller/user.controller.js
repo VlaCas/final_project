@@ -11,7 +11,7 @@ export const registerUser = async (req, res) => {
     const { name, email, password } = req.body; 
 
     const emailInUse = await User.findOne({email})
-    if (emailInUse) return res.status(409).send('This email is already in use.')
+    if (emailInUse) return res.status(409).send({ email: true, message: 'Este correo está en uso.' })
 
     const newUser = new User({
       name,
@@ -41,10 +41,10 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }); 
-    if (!user) return res.status(400).send('User not found.'); 
+    if (!user) return res.status(400).send({ email: true, message: 'Este usuario no está registrado.' });
 
     const isMatch = await user.comparePassword(password);
-    if (!isMatch) return res.status(400).send('Incorrect password.');
+    if (!isMatch) return res.status(400).send({ password: true, message: 'Contraseña incorrecta.' });
 
     const token = await createAccessToken({ id: user._id })
 
