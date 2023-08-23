@@ -1,6 +1,6 @@
 // Importing the required modules and controllers
 import { Router } from 'express';
-import { registerUser, loginUser, logoutUser } from '../Controller/user.controller.js'; 
+import { registerUser, loginUser, logoutUser, sendEmailUser } from '../Controller/user.controller.js'; 
 import { verifyUserToken } from '../Middlewares/validateToken.middleware.js';
 import { validateSchema } from '../Middlewares/validator.schema.js';
 import { registerSchema, loginSchema } from '../Schemas/user.schema.js';
@@ -21,6 +21,9 @@ router.post('/logoutUser', logoutUser);
 
 // Verify token
 router.get('/verifyUserAuth', verifyUserToken);
+
+// Send Email
+router.post('/sendEmailUser', sendEmailUser);
 
 // Export the router
 export default router;

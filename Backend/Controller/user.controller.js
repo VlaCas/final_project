@@ -1,10 +1,6 @@
-//const bcrypt = require('bcrypt');
 import User from '../Models/user.model.js';
 import { createAccessToken } from '../Libs/jwt.js'
-// import jwt from 'jsonwebtoken';
-// import { config } from 'dotenv';
-
-// config();
+import { sendEmail } from '../Libs/sendEmail.js';
 
 export const registerUser = async (req, res) => {
   try {
@@ -60,7 +56,18 @@ export const logoutUser = (req, res) => {
   res.cookie('token', '', {
     expires: new Date(0)
   });
-  return res.status(200).send('Logout successful!!')
+  return res.status(200).send('Logout successful!')
+};
+
+export const sendEmailUser = (req, res) => {
+  try {
+    const { to, subject, html } = req.body;
+
+    sendEmail(to, subject, html, res);
+  } catch (error) {
+    console.error('Failed to send email.', error);
+    res.status(500).send('Failed to send email.');
+  }
 };
 
 // export const profileUser = async (req, res) => {

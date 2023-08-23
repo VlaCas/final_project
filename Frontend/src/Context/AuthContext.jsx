@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { registerRequest, loginRequest, verifyRequest } from '../Api/auth.js';
+import { registerRequest, loginRequest, verifyRequest, sendEmailRequest } from '../Api/auth.js';
 import Cookies from 'js-cookie';
+import { confirmation } from "../Mails/confirmation.js";
 
 export const AuthContext = createContext();
 
@@ -43,9 +44,20 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (user) => {
     try {
-      const res = await registerRequest(user);
-      //console.log(res.data);
-      setUser(res.data.user);
+
+      const values = { 
+        to: user.email, 
+        subject: 'Bienvenid@ a Digital',
+        html: confirmation(user.name)
+      };
+
+      const registerResponse = await registerRequest(user);
+      //console.log(registerResponse.data);
+
+      const sendEmailResponse = await sendEmailRequest(values);
+      //console.log(sendEmailResponse.data)
+      
+      setUser(registerResponse.data.user);
       setIsAuthenticated(true);
     } catch (error) {
       //console.log(error);
@@ -56,7 +68,7 @@ export const AuthProvider = ({ children }) => {
           [field]: message
         }));
       };
-
+      
       const responseErrors = error.response.data;
 
       if (responseErrors.email) {
