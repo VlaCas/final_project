@@ -50,7 +50,7 @@ export function confirmation(name) {
                               </tr>
                               <tr>
                                   <td style="text-align: center; margin-top: 1rem;">
-                                      <a href="www.google.com" class="button" style="color: #fff; font-weight: bold; border: none; border-radius: 6px; background: rgb(138, 59, 191); background: linear-gradient(180deg,rgb(138, 59, 191) 0%,rgb(110, 55, 166) 60%); padding: 0.8rem 3rem; display: inline-block; text-decoration: none;">Iniciar Sesión</a>
+                                      <a href="http://localhost:5173/login" class="button" style="color: #fff; font-weight: bold; border: none; border-radius: 6px; background: rgb(138, 59, 191); background: linear-gradient(180deg,rgb(138, 59, 191) 0%,rgb(110, 55, 166) 60%); padding: 0.8rem 3rem; display: inline-block; text-decoration: none;">Iniciar Sesión</a>
                                   </td>
                               </tr>
                           </tbody>

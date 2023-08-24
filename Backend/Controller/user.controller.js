@@ -70,6 +70,10 @@ export const sendEmailUser = (req, res) => {
   }
 };
 
+export const updatePasswordUser = (req, res) => {
+
+};
+
 // export const profileUser = async (req, res) => {
 //   const user = await User.findById(req.user.id);
 
