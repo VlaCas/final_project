@@ -1,7 +1,7 @@
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../Context/AuthContext.jsx';
 import { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useAuth } from '../Context/AuthContext.jsx';
 import '../style/register.css';
 
 function Login() {
@@ -10,8 +10,8 @@ function Login() {
 	const { signin, isAuthenticated, errors: loginErrors, showErrors, setShowErrors, handleAuthEffect } = useAuth(); 
 	const navigate = useNavigate();
 	
-	const onSubmit = handleSubmit((data) => {
-		signin(data);
+	const onSubmit = handleSubmit((values) => {
+		signin(values);
 	});
 	
 	useEffect(() => {
