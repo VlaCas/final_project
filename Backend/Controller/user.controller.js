@@ -1,5 +1,6 @@
+import bcrypt from 'bcrypt';
 import User from '../Models/user.model.js';
-import { createAccessToken } from '../Libs/jwt.js'
+import { createAccessToken, createPasswordResetToken } from '../Libs/jwt.js'
 import { sendEmail } from '../Libs/sendEmail.js';
 
 export const registerUser = async (req, res) => {
@@ -11,7 +12,7 @@ export const registerUser = async (req, res) => {
 
     const newUser = new User({
       name,
-      email,
+      email: email.toLowerCase(),
       password
     });
 
@@ -19,12 +20,13 @@ export const registerUser = async (req, res) => {
 
     const token = await createAccessToken({ id: userSaved._id })
 
-    res.cookie('token', token, {
+    res.cookie('sessionToken', token, {
       maxAge: 1000 * 60 * 60 * 24,
       secure: true, 
       httpOnly: true,
       sameSite: 'lax'
     });
+
     res.status(200).send({ message: 'User created successfully!!', user: userSaved })
   } catch (error) {
     console.error('Error creating user.', error);
@@ -36,7 +38,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }); 
+    const user = await User.findOne({ email: email.toLowerCase() }); 
     if (!user) return res.status(400).send({ email: true, message: 'Este usuario no está registrado.' });
 
     const isMatch = await user.comparePassword(password);
@@ -44,7 +46,13 @@ export const loginUser = async (req, res) => {
 
     const token = await createAccessToken({ id: user._id })
 
-    res.cookie('token', token)
+    res.cookie('sessionToken', token, {
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: true,
+      httpOnly: true,
+      sameSite: 'lax'
+    });
+    
     res.status(200).send({message: 'User login successfully!!', user: user});
   } catch (error) {
     console.error('Failed to login.', error);
@@ -53,7 +61,7 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-  res.cookie('token', '', {
+  res.cookie('sessionToken', '', {
     expires: new Date(0)
   });
   return res.status(200).send('Logout successful!')
@@ -70,14 +78,49 @@ export const sendEmailUser = (req, res) => {
   }
 };
 
-export const updatePasswordUser = (req, res) => {
+export const passwordResetRequest = async (req, res) => {
+  try {
+    const { email } = req.body;
 
+    const userFound = await User.findOne({ email: email.toLowerCase() }); 
+
+    if (!userFound) return res.status(404).send({ email: true, message: 'Este correo no esta registrado.' });
+
+    const passwordResetToken = await createPasswordResetToken({ id: userFound._id });
+
+    res.cookie('passwordResetToken', passwordResetToken, {
+      maxAge: 1000 * 60 * 5,
+      secure: true, 
+      httpOnly: true,
+      sameSite: 'lax'
+    });
+
+    res.status(200).send({ message: '¡Solicitud de restablecimiento de contraseña realizada con exito!', token: passwordResetToken })
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error al solicitar restablecimiento de contraseña.'); 
+  }
 };
 
-// export const profileUser = async (req, res) => {
-//   const user = await User.findById(req.user.id);
+export const newPasswordUser = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    let { password: newPassword } = req.body;
 
-//   if (!user) return res.status(400).send('User not found.');
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+    newPassword = hashedPassword;
 
-//   res.status(200).send({ message: 'Authenticated user successfully!!', user: user })
-// };
+    if (!userID) return res.status(404).send('No se ha encontrado el ID del usuario.');
+
+    const userFound = await User.findByIdAndUpdate(userID, {
+      password: newPassword
+    });
+
+    if (!userFound) return res.status(404).send('El usuario no se ha encontrado.')
+
+    res.status(200).send('¡La contraseña ha sido restablecida con exito!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error al restablecer la contraseña.')  
+  }
+};
