@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       setUser(registerResponse.data.user);
       setIsAuthenticated(true);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
 
       const updateErrors = (field, message) => {
         setErrors((currentErrors) => ({
