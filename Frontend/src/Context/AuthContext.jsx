@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({ email: '', password: ''});
-  const [showErrors, setShowErrors] = useState({ email: false, password: false})
+  const [showError, setShowError] = useState(true);
 
   const handleError = (error) => {
     console.log(error);
@@ -108,6 +108,7 @@ export const AuthProvider = ({ children }) => {
         }
       });
     }
+    
   };
 
   const [resetForm, setResetForm] = useState(false);
@@ -137,18 +138,10 @@ export const AuthProvider = ({ children }) => {
         }));
       };
 
-      const updateShowErrors = (field) => {
-        setShowErrors((currentValue) => ({
-          ...currentValue,
-          [field]: !!responseErrors[field],
-        }));
-      };
-
       const responseErrors = error.response.data;
 
       if (responseErrors.email) {
         updateErrors('email', responseErrors.message);
-        updateShowErrors('email');
       } else {
         updateErrors('email', '');
       }
@@ -170,21 +163,8 @@ export const AuthProvider = ({ children }) => {
     authUser();
   }, []);
 
-  const handleAuthEffect = (navigate) => {
-    if (isAuthenticated) navigate('/');
-
-    const responseErrors = errors;
-
-    ['email', 'password'].forEach((field) => {
-      setShowErrors((currentValue) => ({
-        ...currentValue,
-        [field]: !!responseErrors[field],
-      }));
-    });
-  };
-
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, errors, showErrors, resetForm, signup, signin, setShowErrors, handleAuthEffect, pwdResetRequest, newPwdRequest }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, errors, resetForm, showError, setShowError, signup, signin, pwdResetRequest, newPwdRequest }}> 
       {children}
     </AuthContext.Provider>
   );
