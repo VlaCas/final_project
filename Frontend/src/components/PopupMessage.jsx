@@ -7,7 +7,7 @@ import { Error } from './svg/Error';
 import '../style/popupMessage.css';
 
 export const PopupMessage = ({ formErrors, submit }) => {
-  const { errors, showError, setShowError } = useAuth();
+  const { errors, setErrors, showError, setShowError } = useAuth();
   const [animationInProgress, setAnimationInProgress] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const PopupMessage = ({ formErrors, submit }) => {
           wrapper.classList.add('animationClass');
           setTimeout(() => {
             desplazamientoSalida.play();
-          }, 3000);
+          }, 8000);
         }
       });
 
@@ -41,6 +41,12 @@ export const PopupMessage = ({ formErrors, submit }) => {
         onComplete: () => {
           setAnimationInProgress(false);
           setShowError(true);
+          ['email', 'password'].forEach((field) => {
+            setErrors((currentErrors) => ({
+              ...currentErrors,
+              [field]: ''
+            }));
+          })
         }
       });
 
