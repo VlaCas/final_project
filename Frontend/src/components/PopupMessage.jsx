@@ -29,7 +29,7 @@ export const PopupMessage = ({ formErrors, submit }) => {
           wrapper.classList.add('animationClass');
           setTimeout(() => {
             desplazamientoSalida.play();
-          }, 8000);
+          }, 3000);
         }
       });
 
