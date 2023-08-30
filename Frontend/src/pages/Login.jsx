@@ -22,7 +22,7 @@ function Login() {
   }, [isAuthenticated, errors]);
 
 	return (
-		<section className='bg-[#1B1B1B] flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
+		<section className='bg-black flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
 			<section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-[55%]'>
 				<div className='flex flex-col gap-10 w-4/5 sm:w-[55%] md:w-full lg:w-4/5 xl:w-4/6'>
 					<h1 className='text-white title-register md:text-6xl lg:pt-0'>Bienvenido</h1>
@@ -38,7 +38,7 @@ function Login() {
 							</div>
 						</div>
 						<div className='w-full'>
-							<button type='submit' className='button-register' onClick={() => {setClickSubmit((current) => !current)}} ><p>Iniciar Sesión</p></button>
+							<button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} ><p>Iniciar Sesión</p></button>
 						</div>
 						<div className='flex flex-col xl:flex-row xl:justify-between'>
 							<p className='text-[#555555]'>¿No tienes una cuenta?<Link to='/register' className='font-bold text-[#AFAFAF] pl-2 hover:text-white'>Regístrate</Link></p>

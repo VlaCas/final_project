@@ -7,6 +7,7 @@ import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Password from './pages/Password';
 import ResetPassword from './pages/ResetPassword';
+import Home from './pages/Home.jsx';
 import './style/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -15,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   		<BrowserRouter>
   			<Routes>
 
-          <Route path="/" element={<>Home</>}/>
+          <Route path="/" element={<Home />}/>
   				<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/password" element={<Password />} />
