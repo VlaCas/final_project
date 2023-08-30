@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
       setUser(registerResponse.data.user);
       setIsAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
 
       const updateErrors = (field, message) => {
         setErrors((currentErrors) => ({
@@ -78,6 +78,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         updateErrors('email', '');
       }
+      setShowPopupMessage(true);
     }
   };
 
@@ -109,6 +110,7 @@ export const AuthProvider = ({ children }) => {
           updateErrors(field, '');
         }
       });
+      setShowPopupMessage(true);
     }
   };
 
@@ -125,14 +127,14 @@ export const AuthProvider = ({ children }) => {
 
       const sendEmailResponse = await sendEmailRequest(values);
       //console.log(sendEmailResponse.data)
-
-      setResetForm(true);
+      
       setSuccessMessage((current) => ({
         ...current,
         success: true,
         message: pwdResetResponse.data.message
       }));
-      console.log(pwdResetResponse.data);
+      setResetForm(true);
+      // console.log(pwdResetResponse.data);
     } catch (error) {
       //console.log(error);
 
@@ -150,6 +152,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         updateErrors('email', '');
       }
+      setShowPopupMessage(true);
     };
   };
 
@@ -158,14 +161,14 @@ export const AuthProvider = ({ children }) => {
       const newPasswordResponse = await newPasswordRequest(values);
       //console.log(newPasswordResponse.data.message)
 
-      setResetForm(true);
       setSuccessMessage((current) => ({
         ...current,
         success: true,
         message: newPasswordResponse.data.message
       }));
+      setResetForm(true);
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
 
       const updateErrors = (field, message) => {
         setErrors((currentErrors) => ({
@@ -181,6 +184,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         updateErrors('password', '');
       };
+      setShowPopupMessage(true);
     };
   };
 

@@ -82,9 +82,14 @@
   transition: color 0.3s ease;
 }
 
+.button-register:disabled {
+  cursor: pointer;
+}
+
 .button-register p{
   z-index: 2;
   position: relative;
+  color: #ffff;
 }
 
 .button-register::before {

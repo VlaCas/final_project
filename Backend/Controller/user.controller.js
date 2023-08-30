@@ -53,10 +53,10 @@ export const loginUser = async (req, res) => {
       sameSite: 'lax'
     });
     
-    res.status(200).send({message: 'User login successfully!!', user: user});
+    res.status(200).send({ message: '¡Usuario logueado exitosamente!', user: user });
   } catch (error) {
     console.error('Failed to login.', error);
-    res.status(500).send('Failed to login');
+    res.status(500).send({ email: true, message: 'Error al tratar de iniciar sesión.' });
   }
 };
 
@@ -116,7 +116,7 @@ export const newPasswordUser = async (req, res) => {
       password: newPassword
     });
 
-    if (!userFound) return res.status(404).send('El usuario no se ha encontrado.')
+    if (!userFound) return res.status(404).send({ password: true, message: 'El usuario no se ha encontrado.' })
 
     res.status(200).send({ message: '¡La contraseña ha sido restablecida con exito!' });
   } catch (error) {

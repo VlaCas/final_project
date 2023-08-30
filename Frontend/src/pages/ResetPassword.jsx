@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
-import { ErrorPopup } from '../components/ErrorPopup.jsx';
-import { SuccessPopup } from '../components/SuccessPopup.jsx';
+import { PopupMessage } from '../components/PopupMessage.jsx';
 import '../style/register.css';
 
 function NewPassword() {
@@ -11,13 +10,15 @@ function NewPassword() {
   const [searchParams, setSearchParams] = useSearchParams();
   const passwordResetToken = searchParams.get('passwordResetToken')
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
-  const { newPwdRequest, resetForm, showPopupMessage } = useAuth(); 
+  const { newPwdRequest, resetForm, showPopupMessage, errors: resetPasswordErrors, successMessage } = useAuth(); 
   const [clickSubmit, setClickSubmit] = useState(false);
+  const conditionsToShowMessage = resetPasswordErrors?.password || errors.password || errors.confirmPassword || successMessage?.message;
   
   const onSubmit = handleSubmit((values) => {
     if (passwordResetToken) values.tokenURL = passwordResetToken;
-    if (showPopupMessage)
+    if (showPopupMessage){
       newPwdRequest(values);
+    }
   });
   
   useEffect(() => {
@@ -25,7 +26,7 @@ function NewPassword() {
   }, [resetForm])
 
   return (
-    <section className='bg-black flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
+    <section className='flex flex-col items-center justify-center px-5 py-4 bg-black sectionRegister lg:flex-row'>
       <section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-[55%] lg:w-2/4'>
         <div className='flex flex-col gap-10 w-4/5 sm:w-[55%] md:w-full lg:w-[70%] xl:w-[65%]'>
           <h1 className='text-white title-register md:text-6xl lg:pt-0'>Restablecer Contraseña</h1>
@@ -43,7 +44,7 @@ function NewPassword() {
               </div>
             </div>
             <div className='w-full'>
-              <button type='submit' className='button-register' onClick={() => {setClickSubmit((current) => !current)}}><p>Guardar</p></button>
+              <button type='submit' className='button-register' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Guardar</p></button>
             </div>
           </form>
         </div>
@@ -58,8 +59,7 @@ function NewPassword() {
           </div>
         </div>
       </section>
-      <ErrorPopup formErrors={errors} submit={clickSubmit}/>
-      <SuccessPopup submit={clickSubmit}/>
+      {conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
     </section>
   );
 };
