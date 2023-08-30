@@ -26,8 +26,8 @@ function NewPassword() {
   }, [resetForm])
 
   return (
-    <section className='flex flex-col items-center justify-center px-5 py-4 bg-black sectionRegister lg:flex-row'>
-      <section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-[55%] lg:w-2/4'>
+    <section className='bg-black sectionRegister px-5 py-4'>
+      <section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-4/5 xl:w-3/5'>
         <div className='flex flex-col gap-10 w-4/5 sm:w-[55%] md:w-full lg:w-[70%] xl:w-[65%]'>
           <h1 className='text-white title-register md:text-6xl lg:pt-0'>Restablecer Contraseña</h1>
           <form className='flex flex-col gap-6 text-lg font-medium' onSubmit={onSubmit}>
@@ -44,21 +44,13 @@ function NewPassword() {
               </div>
             </div>
             <div className='w-full'>
-              <button type='submit' className='button-register' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Guardar</p></button>
+              <button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Guardar</p></button>
             </div>
           </form>
         </div>
       </section>
-      <section className='hidden lg:flex lg:flex-col lg:items-center lg:w-2/4'>
-        <div className='border border-white container-earphone rounded-xl lg:w-3/4'>
-          <div className='w-full flex content-start h-[10%]'>
-            <img src='./src/assets/Img/logo-digital.png' alt='Digital' className='w-40 h-40 ml-4' />
-          </div>
-          <div className='flex items-center justify-center h-[85%]'>
-            <img src='./src/assets/Img/img-register.png' alt='Auricular' className='w-[95%] h-[500px]' />
-          </div>
-        </div>
-      </section>
+      <ErrorPopup formErrors={errors} submit={clickSubmit}/>
+      <SuccessPopup submit={clickSubmit}/>
       {conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
     </section>
   );
