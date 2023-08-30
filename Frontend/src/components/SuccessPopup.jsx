@@ -8,7 +8,7 @@ import '../style/popupMessage.css';
 
 export const SuccessPopup = ({ submit }) => {
   
-  const { errors, setErrors, showPopupMessage, setShowPopupMessage, successMessage, setSuccessMessage } = useAuth();
+  const { showPopupMessage, setShowPopupMessage, successMessage, setSuccessMessage } = useAuth();
   const [animationInProgress, setAnimationInProgress] = useState(false);
   
   useEffect(() => {
