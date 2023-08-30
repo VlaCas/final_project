@@ -16,7 +16,9 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({ email: '', password: ''});
-  const [showErrors, setShowErrors] = useState({ email: false, password: false})
+  const [successMessage, setSuccessMessage] = useState({ success: false, message: '' });
+  const [showPopupMessage, setShowPopupMessage] = useState(true);
+  const [resetForm, setResetForm] = useState(false);
 
   const handleError = (error) => {
     console.log(error);
@@ -110,12 +112,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const [resetForm, setResetForm] = useState(false);
-
   const pwdResetRequest = async (data) => {
     try {
       const pwdResetResponse = await passwordResetRequest(data); 
-      console.log(pwdResetResponse.data.message);
+      //console.log(pwdResetResponse.data.message);
 
       const values = { 
         to: data.email, 
@@ -124,11 +124,17 @@ export const AuthProvider = ({ children }) => {
       };
 
       const sendEmailResponse = await sendEmailRequest(values);
-      console.log(sendEmailResponse.data)
+      //console.log(sendEmailResponse.data)
 
       setResetForm(true);
+      setSuccessMessage((current) => ({
+        ...current,
+        success: true,
+        message: pwdResetResponse.data.message
+      }));
+      console.log(pwdResetResponse.data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
 
       const updateErrors = (field, message) => {
         setErrors((currentErrors) => ({
@@ -137,18 +143,10 @@ export const AuthProvider = ({ children }) => {
         }));
       };
 
-      const updateShowErrors = (field) => {
-        setShowErrors((currentValue) => ({
-          ...currentValue,
-          [field]: !!responseErrors[field],
-        }));
-      };
-
       const responseErrors = error.response.data;
 
       if (responseErrors.email) {
         updateErrors('email', responseErrors.message);
-        updateShowErrors('email');
       } else {
         updateErrors('email', '');
       }
@@ -158,11 +156,31 @@ export const AuthProvider = ({ children }) => {
   const newPwdRequest = async (values) => {
     try {
       const newPasswordResponse = await newPasswordRequest(values);
-      console.log(newPasswordResponse.data)
+      //console.log(newPasswordResponse.data.message)
 
       setResetForm(true);
+      setSuccessMessage((current) => ({
+        ...current,
+        success: true,
+        message: newPasswordResponse.data.message
+      }));
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+
+      const updateErrors = (field, message) => {
+        setErrors((currentErrors) => ({
+          ...currentErrors,
+          [field]: message
+        }));
+      };
+
+      const responseErrors = error.response.data;
+
+      if (responseErrors.password) {
+        updateErrors('password', responseErrors.message);
+      } else {
+        updateErrors('password', '');
+      };
     };
   };
 
@@ -170,21 +188,8 @@ export const AuthProvider = ({ children }) => {
     authUser();
   }, []);
 
-  const handleAuthEffect = (navigate) => {
-    if (isAuthenticated) navigate('/');
-
-    const responseErrors = errors;
-
-    ['email', 'password'].forEach((field) => {
-      setShowErrors((currentValue) => ({
-        ...currentValue,
-        [field]: !!responseErrors[field],
-      }));
-    });
-  };
-
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, errors, showErrors, resetForm, signup, signin, setShowErrors, handleAuthEffect, pwdResetRequest, newPwdRequest }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, errors, resetForm, showPopupMessage, successMessage, setShowPopupMessage, setErrors, setSuccessMessage, signup, signin, pwdResetRequest, newPwdRequest }}> 
       {children}
     </AuthContext.Provider>
   );

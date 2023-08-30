@@ -5,4 +5,10 @@ const instance = axios.create({
   withCredentials: true
 });
 
+const alternateBaseURL = 'http://localhost:7117/api';
+instance.interceptors.request.use((config) => {
+  config.baseURL = alternateBaseURL;
+  return config;
+});
+
 export default instance;

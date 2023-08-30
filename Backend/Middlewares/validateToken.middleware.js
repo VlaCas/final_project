@@ -36,16 +36,17 @@ export const verifyUserToken = async (req, res) => {
 
 export const verifyPasswordResetToken = async (req, res, next) => {
   const { passwordResetToken } = req.cookies;
+
   const { tokenURL } = req.body;
 
-  if (!passwordResetToken) return res.status(404).send('No se ha encontrado el token que autoriza el restablecimiento de esta contraseña o éste ha caducado.');
+  if (!passwordResetToken) return res.status(404).send({ password: true, message: 'No se ha encontrado el token que autoriza el restablecimiento de esta contraseña o éste ha caducado.' });
 
-  if (!tokenURL) return res.status(404).send('No se ha encontrado el token en la url.');
+  if (!tokenURL) return res.status(404).send({ password: true, message: 'No se ha encontrado el token en la url.' });
 
-  if (passwordResetToken !== tokenURL) return res.status(400).send('Los tokens no coinciden.'); 
+  if (passwordResetToken !== tokenURL) return res.status(400).send({ password: true, message: 'Los tokens no coinciden.' }); 
 
   jwt.verify(passwordResetToken, process.env.JWT_SECRET_KEY, async (error, user) => {
-    if (error) return res.status(403).send('Invalid token, authorization denied.');
+    if (error) return res.status(403).send({ password: true, message: 'Invalid token, authorization denied.' });
 
     req.body.userID = user.id;
     next();
