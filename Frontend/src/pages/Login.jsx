@@ -2,24 +2,24 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
-import { PopupMessage } from '../components/PopupMessage.jsx';
+import { ErrorPopup } from '../components/ErrorPopup.jsx';
 import '../style/register.css';
 
 function Login() {
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
-	const { signin, isAuthenticated, errors: loginErrors, showError } = useAuth(); 
+	const { signin, isAuthenticated, showPopupMessage } = useAuth(); 
 	const [clickSubmit, setClickSubmit] = useState(false);
 	const navigate = useNavigate();  
 	
 	const onSubmit = handleSubmit((values) => {
-		if (showError)
+		if (showPopupMessage)
 			signin(values);
 	});
 	
 	useEffect(() => {
 		if (isAuthenticated) navigate('/');
-  }, [isAuthenticated, loginErrors, errors]);
+  }, [isAuthenticated, errors]);
 
 	return (
 		<section className='bg-[#1B1B1B] flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
@@ -29,12 +29,12 @@ function Login() {
 					<form className='flex flex-col gap-6 text-lg font-medium' onSubmit={onSubmit}>
 						<div className='flex flex-col w-full gap-2'>
 							<label htmlFor='email' className='text-[#AFAFAF]'>Email</label>
-							<input type='text' {...register('email', { required: { value: true, message: 'Por favor, debe llenar todos los campos.' }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: 'Introduzca un correo válido.' } })} placeholder='ejemplo@gmail.com' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]'	onChange={() => {}}/>
+							<input type='text' {...register('email', { required: { value: true, message: 'Por favor, debe llenar todos los campos.' }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: 'Introduzca un correo válido.' } })} placeholder='ejemplo@gmail.com' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]'	onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
 						</div>
 						<div className='flex flex-col gap-6'>
 							<div className='flex flex-col gap-2'>
 								<label htmlFor='contraseña' className='text-[#AFAFAF]'>Contraseña</label>
-								<input type='password' {...register('password', { required: { value: true, message: 'Por favor, debe llenar todos los campos.' }, pattern: { value: '^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$', message: 'Contraseña incorrecta' } })} placeholder='Ingrese su contraseña' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' onChange={() => {}}/>
+								<input type='password' {...register('password', { required: { value: true, message: 'Por favor, debe llenar todos los campos.' }, pattern: { value: '^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$', message: 'Contraseña incorrecta' } })} placeholder='Ingrese su contraseña' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
 							</div>
 						</div>
 						<div className='w-full'>
@@ -57,7 +57,7 @@ function Login() {
 					</div>
 				</div>
 			</section>
-			<PopupMessage formErrors={errors} submit={clickSubmit}/>
+			<ErrorPopup formErrors={errors} submit={clickSubmit}/>
 		</section>
 	);
 };

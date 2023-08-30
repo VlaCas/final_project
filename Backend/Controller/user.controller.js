@@ -98,7 +98,7 @@ export const passwordResetRequest = async (req, res) => {
     res.status(200).send({ message: '¡Solicitud de restablecimiento de contraseña realizada con exito!', token: passwordResetToken })
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error al solicitar restablecimiento de contraseña.'); 
+    res.status(500).send({ email: true, message: 'Error al solicitar restablecimiento de contraseña.' }); 
   }
 };
 
@@ -110,7 +110,7 @@ export const newPasswordUser = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(newPassword, 10);
     newPassword = hashedPassword;
 
-    if (!userID) return res.status(404).send('No se ha encontrado el ID del usuario.');
+    if (!userID) return res.status(404).send({ password: true, message: 'No se ha encontrado el ID del usuario.' });
 
     const userFound = await User.findByIdAndUpdate(userID, {
       password: newPassword
@@ -118,9 +118,9 @@ export const newPasswordUser = async (req, res) => {
 
     if (!userFound) return res.status(404).send('El usuario no se ha encontrado.')
 
-    res.status(200).send('¡La contraseña ha sido restablecida con exito!');
+    res.status(200).send({ message: '¡La contraseña ha sido restablecida con exito!' });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error al restablecer la contraseña.')  
+    res.status(500).send({ password: true, message: 'Error al restablecer la contraseña.' })  
   }
 };

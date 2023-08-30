@@ -6,16 +6,17 @@ import { Close } from './svg/Close';
 import { Error } from './svg/Error';
 import '../style/popupMessage.css';
 
-export const PopupMessage = ({ formErrors, submit }) => {
-  const { errors, setErrors, showError, setShowError } = useAuth();
+export const ErrorPopup = ({ formErrors, submit }) => {
+  
+  const { errors, setErrors, showPopupMessage, setShowPopupMessage } = useAuth();
   const [animationInProgress, setAnimationInProgress] = useState(false);
+  const shouldShowMessage = formErrors.name?.message || formErrors.email?.message || formErrors.password?.message || formErrors.confirmPassword?.message || errors.email || errors.password;
 
   useEffect(() => {
     const wrapper = document.querySelector('.messageWrapper');
     const svgClose = document.querySelector('.svgClose');
     
-    if (wrapper && !animationInProgress && showError) {
-      setAnimationInProgress(true);
+    if (!animationInProgress && showPopupMessage) {
 
       const desplazamientoEntrada = gsap.to(wrapper, {
         marginRight: '390px', 
@@ -23,7 +24,8 @@ export const PopupMessage = ({ formErrors, submit }) => {
         ease: "elastic.out",
         paused: true,
         onStart: () => {
-          setShowError(false)
+          setAnimationInProgress(true);
+          setShowPopupMessage(false)
           wrapper.classList.remove('animationClass');
           void wrapper.offsetWidth;
           wrapper.classList.add('animationClass');
@@ -40,12 +42,14 @@ export const PopupMessage = ({ formErrors, submit }) => {
         paused: true,
         onComplete: () => {
           setAnimationInProgress(false);
-          setShowError(true);
+          setShowPopupMessage(true);
           ['email', 'password'].forEach((field) => {
-            setErrors((currentErrors) => ({
-              ...currentErrors,
-              [field]: ''
-            }));
+            if (errors[field]) {
+              setErrors((currentErrors) => ({
+                ...currentErrors,
+                [field]: ''
+              }));
+            }
           })
         }
       });
@@ -55,20 +59,20 @@ export const PopupMessage = ({ formErrors, submit }) => {
       };
 
       svgClose.addEventListener('click', onClick);
-
-      desplazamientoEntrada.play();
+      
+      if (shouldShowMessage){
+        desplazamientoEntrada.play();
+      }
     }
-  }, [errors, formErrors, submit]);
+  }, [formErrors, submit, errors]);
 
-  const shouldShowMessage = formErrors.name || formErrors.email || formErrors.password || formErrors.confirmPassword || errors.email || errors.password;
-
-  return shouldShowMessage && (
+  return (
     <div className="messageWrapper">
       <Error />
       <p>
-        {formErrors.name?.message || formErrors.email?.message || formErrors.password?.message || formErrors.confirmPassword?.message || errors.email || errors.password}
+        {shouldShowMessage}
       </p>
       <Close />
     </div>
-  );
-};
+  ); 
+}; 

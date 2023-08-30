@@ -24,7 +24,30 @@
   overflow: hidden;
 }
 
+.successMessageWrapper {
+  position: absolute;
+  bottom: 20px;
+  right: -370px;   
+  background-color: rgba(30, 30, 30, 0.5); 
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 350px;
+  height: 100px;
+  padding: 17px;
+  gap: 15px;
+  overflow: hidden;
+}
+
 .messageWrapper > p {
+  text-align: start;
+  cursor: default;
+  word-wrap: break-word;
+}
+
+.successMessageWrapper > p {
   text-align: start;
   cursor: default;
   word-wrap: break-word;
@@ -41,6 +64,10 @@
   min-width: 25px;
 }
 
+.svgCheck {
+  min-width: 25px;
+}
+
 .messageWrapper::after {
   content: '';
   width: 100%;
@@ -51,6 +78,16 @@
   left: 0;
   /* animation: decrease 3s linear 1;
   animation-fill-mode: forwards;*/
+} 
+
+.successMessageWrapper::after {
+  content: '';
+  width: 100%;
+  height: 5%;
+  background-color: #12ba12;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 } 
 
 .animationClass::after {
