@@ -1,0 +1,18 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales de la sección inicio */
+.sectionHome {
+    width: 100%;
+    font-family: 'Darker Grotesque', sans-serif;
+}
+/* Boton con fondo transparente */
+
+.button-transparent:hover{
+    background-color: transparent;
+    border: solid 1px #ffff;
+    transition: 0.5s;
+}

@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
   background-size: 300% 300%;
-  background-image: linear-gradient(-45deg, #1C1240 0%, #1C1240 25%, #1B1B1B 51%, #0D0D0D 100%);
+  background-image: linear-gradient(-45deg, #1C1240 0%, #1C1240 25%, #000000 51%, #020202 100%);
   -webkit-animation: AnimateBG 3s ease infinite;
   animation: AnimateBG 10s ease infinite;
 }
@@ -52,8 +52,8 @@
 
 /* Estilos del contenedor del auricular */
 .container-earphone{
-  background: rgb(27,27,27);
-  background: linear-gradient(180deg, rgba(27,27,27,1) 0%, rgba(27,27,27,1) 50%, rgba(50,22,89,1) 100%);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 50%, rgba(50,22,89,1) 100%);
 }
 
 /* Estilos de sección del formulario */
@@ -72,7 +72,6 @@
 .button-register {
   padding: 0.25rem 0.5rem;
   width: 100%;
-  background-color: #8A3BBF;
   color: #ffff;
   font-weight: 600;
   border: none;

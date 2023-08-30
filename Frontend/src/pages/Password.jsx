@@ -18,7 +18,7 @@ function Password() {
     }, [resetForm])
 
     return (
-        <section className='bg-[#1B1B1B] flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
+        <section className='bg-black flex flex-col items-center justify-center sectionRegister px-5 py-4 lg:flex-row'>
             <section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-[55%] lg:w-2/4'>
                 <div className='flex flex-col gap-10 w-4/5 sm:w-[55%] md:w-full lg:w-[70%] xl:w-[65%]'>
                     <h1 className='text-white title-register md:text-6xl lg:pt-0'>Restablecer Contraseña</h1>
@@ -31,7 +31,7 @@ function Password() {
                         {errors.email && <span className='span-register'>{errors.email.message}</span>}
                         {emailErrors.email && showErrors.email && <span className='span-register'>{emailErrors.email}</span>}
                         <div className='w-full'>
-                            <button type='submit' className='button-register'><p>Enviar</p></button>
+                            <button type='submit' className='button-register bg-[#8A3BBF]'><p>Enviar</p></button>
                         </div>
                         <div>
                             <p className='text-[#555555]'>Volver a<Link to='/login' className='font-bold text-[#AFAFAF] pl-2 hover:text-white'>Iniciar Sesión</Link></p>
