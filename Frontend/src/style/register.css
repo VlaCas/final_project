@@ -85,6 +85,7 @@
 .button-register p{
   z-index: 2;
   position: relative;
+  color: #ffff;
 }
 
 .button-register::before {
@@ -127,10 +128,6 @@
 .button-register:hover::after {
   left: 0;
   background-color: #6e37a6;
-}
-
-.button-register:hover{
-  color: #ffff;
 }
 
 input:focus{

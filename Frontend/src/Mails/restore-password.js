@@ -1,5 +1,5 @@
 export function resetPassword(token) {
-  return  `<!DOCTYPE html>
+    return `<!DOCTYPE html>
   <html lang="en">
   
   <head>
@@ -36,7 +36,7 @@ export function resetPassword(token) {
                               <tr>
                                   <!-- Celdas -->
                                   <td style="display: flex; justify-content: center;">
-                                      <a href="https://imgbb.com/"><img src="https://i.ibb.co/NCSTpDn/logo-digital.png" alt="logo-digital" border="0" width="200px" height="200px"></a>
+                                    <a href="https://imgbb.com/"><img src="https://i.ibb.co/kMQd11B/logo-digital.png" alt="logo-digital" border="0" width="200px" height="200px"></a>
                                   </td>
                               </tr>
                               <tr>
