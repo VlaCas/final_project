@@ -16,3 +16,16 @@
     border: solid 1px #ffff;
     transition: 0.5s;
 }
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: black;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #8A3BBF;
+    border-radius: 10px;
+}

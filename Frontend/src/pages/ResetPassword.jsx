@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
-import { ErrorPopup } from '../components/ErrorPopup.jsx';
-import { SuccessPopup } from '../components/SuccessPopup.jsx';
+import { PopupMessage } from '../components/PopupMessage.jsx';
 import '../style/register.css';
 
 function NewPassword() {
@@ -11,13 +10,15 @@ function NewPassword() {
   const [searchParams, setSearchParams] = useSearchParams();
   const passwordResetToken = searchParams.get('passwordResetToken')
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
-  const { newPwdRequest, resetForm, showPopupMessage } = useAuth(); 
+  const { newPwdRequest, resetForm, showPopupMessage, errors: resetPasswordErrors, successMessage } = useAuth(); 
   const [clickSubmit, setClickSubmit] = useState(false);
+  const conditionsToShowMessage = resetPasswordErrors?.password || errors.password || errors.confirmPassword || successMessage?.message;
   
   const onSubmit = handleSubmit((values) => {
     if (passwordResetToken) values.tokenURL = passwordResetToken;
-    if (showPopupMessage)
+    if (showPopupMessage){
       newPwdRequest(values);
+    }
   });
   
   useEffect(() => {
@@ -43,13 +44,14 @@ function NewPassword() {
               </div>
             </div>
             <div className='w-full'>
-              <button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}}><p>Guardar</p></button>
+              <button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Guardar</p></button>
             </div>
           </form>
         </div>
       </section>
       <ErrorPopup formErrors={errors} submit={clickSubmit}/>
       <SuccessPopup submit={clickSubmit}/>
+      {conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
     </section>
   );
 };

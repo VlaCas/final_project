@@ -2,19 +2,21 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
-import { ErrorPopup } from '../components/ErrorPopup.jsx';
+import { PopupMessage } from '../components/PopupMessage.jsx';
 import '../style/register.css';
 
 function Login() {
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
-	const { signin, isAuthenticated, showPopupMessage } = useAuth(); 
+	const { signin, isAuthenticated, showPopupMessage, errors: loginErrors } = useAuth(); 
 	const [clickSubmit, setClickSubmit] = useState(false);
 	const navigate = useNavigate();  
+	const conditionsToShowMessage = loginErrors?.email || loginErrors?.password || errors.email || errors.password;
 	
 	const onSubmit = handleSubmit((values) => {
-		if (showPopupMessage)
+		if (showPopupMessage){
 			signin(values);
+		}
 	});
 	
 	useEffect(() => {
@@ -29,16 +31,16 @@ function Login() {
 					<form className='flex flex-col gap-6 text-lg font-medium' onSubmit={onSubmit}>
 						<div className='flex flex-col w-full gap-2'>
 							<label htmlFor='email' className='text-[#AFAFAF]'>Email</label>
-							<input type='text' {...register('email', { required: { value: true, message: 'Por favor, debe llenar todos los campos.' }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: 'Introduzca un correo válido.' } })} placeholder='ejemplo@gmail.com' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]'	onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
+							<input type='text' {...register('email', { required: { value: true, message: 'Por favor, introduzca su correo.' }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: 'Introduzca un correo válido.' } })} placeholder='ejemplo@gmail.com' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]'	onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
 						</div>
 						<div className='flex flex-col gap-6'>
 							<div className='flex flex-col gap-2'>
 								<label htmlFor='contraseña' className='text-[#AFAFAF]'>Contraseña</label>
-								<input type='password' {...register('password', { required: { value: true, message: 'Por favor, debe llenar todos los campos.' }, pattern: { value: '^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$', message: 'Contraseña incorrecta' } })} placeholder='Ingrese su contraseña' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
+								<input type='password' {...register('password', { required: { value: true, message: 'Por favor, introduzca su contraseña.' }, pattern: { value: '^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$', message: 'Contraseña incorrecta' } })} placeholder='Ingrese su contraseña' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
 							</div>
 						</div>
 						<div className='w-full'>
-							<button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} ><p>Iniciar Sesión</p></button>
+							<button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Iniciar Sesión</p></button>
 						</div>
 						<div className='flex flex-col md:flex-row md:justify-between'>
 							<p className='text-[#555555]'>¿No tienes una cuenta?<Link to='/register' className='font-bold text-[#AFAFAF] pl-2 hover:text-white'>Regístrate</Link></p>
@@ -48,6 +50,7 @@ function Login() {
 				</div>
 			</section>
 			<ErrorPopup formErrors={errors} submit={clickSubmit}/>
+			{conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
 		</section>
 	);
 };

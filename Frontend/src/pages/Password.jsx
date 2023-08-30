@@ -2,19 +2,20 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
-import { ErrorPopup } from '../components/ErrorPopup.jsx';
-import { SuccessPopup } from '../components/SuccessPopup.jsx';
+import { PopupMessage } from '../components/PopupMessage.jsx';
 import '../style/register.css';
 
 function Password() {
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const { pwdResetRequest, showPopupMessage, resetForm } = useAuth(); 
+  const { pwdResetRequest, showPopupMessage, resetForm, errors: emailErrors, successMessage } = useAuth(); 
   const [clickSubmit, setClickSubmit] = useState(false);
+  const conditionsToShowMessage = emailErrors?.email || errors.email || successMessage?.message;
   
   const onSubmit = handleSubmit((value) => {
-    if (showPopupMessage) 
+    if (showPopupMessage){
       pwdResetRequest(value)
+    }
   });
   
   useEffect(() => {
@@ -30,10 +31,10 @@ function Password() {
           <form className='flex flex-col gap-6 text-lg font-medium' onSubmit={onSubmit}>
             <div className='flex flex-col w-full gap-2'>
               <label htmlFor='email' className='text-[#AFAFAF]'>Email</label>
-              <input type="text" {...register('email', { required: { value: true, message: "Email requerido." }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: "Introduzca un correo válido." } })} placeholder='Ingrese su Email' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]'  onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
+              <input type="text" {...register('email', { required: { value: true, message: "Por favor, introduzca su correo." }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: "Introduzca un correo válido." } })} placeholder='Ingrese su Email' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]'  onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
             </div>
             <div className='w-full'>
-              <button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}}><p>Enviar</p></button>
+              <button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Enviar</p></button>
             </div>
             <div>
               <p className='text-[#555555]'>Volver a<Link to='/login' className='font-bold text-[#AFAFAF] pl-2 hover:text-white'>Iniciar Sesión</Link></p>
@@ -43,6 +44,7 @@ function Password() {
       </section>
       <ErrorPopup formErrors={errors} submit={clickSubmit}/>
       <SuccessPopup submit={clickSubmit}/>
+      {conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
     </section>
   );
 };
