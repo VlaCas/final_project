@@ -8,7 +8,7 @@ import '../style/register.css';
 function Login() {
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
-	const { signin, isAuthenticated, showPopupMessage, errors: loginErrors } = useAuth(); 
+	const { signin, isAuthenticated, showPopupMessage, errors: loginErrors, waitingResponse } = useAuth(); 
 	const [clickSubmit, setClickSubmit] = useState(false);
 	const navigate = useNavigate();  
 	const conditionsToShowMessage = loginErrors?.email || loginErrors?.password || errors.email || errors.password;
@@ -24,8 +24,8 @@ function Login() {
   }, [isAuthenticated, errors]);
 
 	return (
-		<section className='bg-black sectionRegister px-5 py-4'>
-			<section className='text-white flex flex-col items-center h-full justify-center gap-16 w-full sm:w-full md:w-3/5'>
+		<section className='px-5 py-4 bg-black sectionRegister'>
+			<section className='flex flex-col items-center justify-center w-full h-full gap-16 text-white sm:w-full md:w-3/5'>
 				<div className='flex flex-col gap-10 w-4/5 sm:w-[55%] md:w-full lg:w-4/5 xl:w-4/6'>
 					<h1 className='text-white title-register md:text-6xl lg:pt-0'>Bienvenido</h1>
 					<form className='flex flex-col gap-6 text-lg font-medium' onSubmit={onSubmit}>
@@ -40,7 +40,7 @@ function Login() {
 							</div>
 						</div>
 						<div className='w-full'>
-							<button type='submit' className='button-register bg-[#8A3BBF]' onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>Iniciar Sesión</p></button>
+							<button type='submit' className={`button-register bg-[#8A3BBF] ${!waitingResponse ? null : 'loading'}`} onClick={() => {setClickSubmit((current) => !current)}} disabled={showPopupMessage ? false : true}><p>{!waitingResponse ? 'Iniciar Sesión' : null}</p></button>
 						</div>
 						<div className='flex flex-col md:flex-row md:justify-between'>
 							<p className='text-[#555555]'>¿No tienes una cuenta?<Link to='/register' className='font-bold text-[#AFAFAF] pl-2 hover:text-white'>Regístrate</Link></p>
@@ -49,7 +49,6 @@ function Login() {
 					</form>
 				</div>
 			</section>
-			<ErrorPopup formErrors={errors} submit={clickSubmit}/>
 			{conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
 		</section>
 	);
