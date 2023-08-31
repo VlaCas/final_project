@@ -61,10 +61,14 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-  res.cookie('sessionToken', '', {
-    expires: new Date(0)
-  });
-  return res.status(200).send('Logout successful!')
+  try {
+    res.clearCookie('sessionToken');
+
+    return res.status(200).send({ message: 'Logout successful!' })
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Error al cerrar sesión" })
+  }
 };
 
 export const sendEmailUser = (req, res) => {

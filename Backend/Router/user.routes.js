@@ -14,7 +14,7 @@ router.post('/registerUser', validateSchema(registerSchema), registerUser);
 router.post('/loginUser', loginUser);
 
 // Logout user
-router.post('/logoutUser', logoutUser);
+router.post('/logoutUser', verifyUserToken, logoutUser);
 
 // Verify token
 router.get('/verifyUserAuth', verifyUserToken);
