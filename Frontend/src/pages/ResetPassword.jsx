@@ -49,8 +49,6 @@ function NewPassword() {
           </form>
         </div>
       </section>
-      <ErrorPopup formErrors={errors} submit={clickSubmit}/>
-      <SuccessPopup submit={clickSubmit}/>
       {conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
     </section>
   );

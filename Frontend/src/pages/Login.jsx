@@ -49,7 +49,6 @@ function Login() {
 					</form>
 				</div>
 			</section>
-			<ErrorPopup formErrors={errors} submit={clickSubmit}/>
 			{conditionsToShowMessage && <PopupMessage formErrors={errors} submit={clickSubmit}/>}
 		</section>
 	);

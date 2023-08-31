@@ -8,6 +8,7 @@ import Login from './pages/Login.jsx';
 import Password from './pages/Password';
 import ResetPassword from './pages/ResetPassword';
 import Home from './pages/Home.jsx';
+import Products from './pages/Products.jsx';
 import './style/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 					<Route path="/login" element={<Login />} />
 					<Route path="/password" element={<Password />} />
 					<Route path="/resetPassword" element={<ResetPassword />} />
+					<Route path="/products" element={<Products />}/>
 
           <Route element={<ProtectedRoute/>}>
             <Route path="/profile" element={<>Profile</>}/>
