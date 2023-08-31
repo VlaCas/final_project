@@ -1,0 +1,71 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales de la sección de productos */
+.section-products {
+    width: 100%;
+    font-family: 'Darker Grotesque', sans-serif;
+}
+
+/* Estilos de card */
+.card-button {
+    width: 50%;
+    color: #ffff;
+    font-weight: 600;
+    border: none;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease;
+  }
+  
+  .card-button p {
+    z-index: 2;
+    position: relative;
+  }
+  
+  .card-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #ffff;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    transition: left 0.3s ease, background-color 0.3s ease;
+    z-index: 1;
+  }
+  
+  .card-button:hover::before {
+    left: 0;
+    background-color: #ffff;
+  }
+  
+  .card-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #6e37a6;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    transition: left 0.5s ease, background-color 0.3s ease;
+    z-index: 1;
+  }
+  
+  .card-button:hover::after {
+    left: 0;
+    background-color: #6e37a6;
+  }
+  
+  .card-button:hover {
+    color: #ffff;
+  }
