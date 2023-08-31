@@ -95,3 +95,9 @@ nav {
 .shop-icon:hover {
   transform: scale(1.2);
 }
+
+nav{
+  background: rgba(13, 13, 13, .4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

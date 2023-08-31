@@ -1,5 +1,6 @@
 import Footer from '../components/Footer';
 import Nav from '../components/Nav';
+import { Link } from "react-router-dom";
 import NavUser from '../components/NavUser';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { BsCartCheck, BsWallet2 } from 'react-icons/bs';
@@ -93,7 +94,7 @@ function Home() {
                         </div>
                     </div>
                     <div className='w-11/12 pt-12 m-auto'>
-                       <button className='text-white font-extrabold text-xl bg-[#8A3BBF] w-full px-4 py-2 rounded-3xl button-transparent'>Compra ahora</button> 
+                       <button className='text-white font-extrabold text-xl bg-[#8A3BBF] w-full px-4 py-2 rounded-3xl button-transparent'><Link to="/products">Compra ahora</Link></button> 
                     </div>
                 </div>
             </section>
