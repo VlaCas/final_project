@@ -5,7 +5,7 @@ config();
 
 export const authRequired = (req, res, next) => {
   const { sessionToken } = req.cookies;
-  
+
   if (!sessionToken) return res.status(401).send('No token, authorization denied.');
 
   jwt.verify(sessionToken, process.env.JWT_SECRET_KEY, (error, user) => {

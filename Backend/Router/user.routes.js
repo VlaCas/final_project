@@ -1,7 +1,7 @@
 // Importing the required modules and controllers
 import { Router } from 'express';
 import { registerUser, loginUser, logoutUser, sendEmailUser, passwordResetRequest, newPasswordUser } from '../Controller/user.controller.js'; 
-import { verifyUserToken, verifyPasswordResetToken } from '../Middlewares/validateToken.middleware.js';
+import { verifyUserToken, verifyPasswordResetToken, authRequired } from '../Middlewares/validateToken.middleware.js';
 import { validateSchema } from '../Middlewares/validator.schema.js';
 import { registerSchema } from '../Schemas/user.schema.js';
 
@@ -14,7 +14,7 @@ router.post('/registerUser', validateSchema(registerSchema), registerUser);
 router.post('/loginUser', loginUser);
 
 // Logout user
-router.post('/logoutUser', verifyUserToken, logoutUser);
+router.post('/logoutUser', authRequired, logoutUser);
 
 // Verify token
 router.get('/verifyUserAuth', verifyUserToken);

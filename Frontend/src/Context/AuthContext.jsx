@@ -123,7 +123,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const logoutResponse = await logoutRequest();
-      //console.log(logoutResponse.data.message);
+      //console.log(logoutResponse.data);
 
       setIsAuthenticated(false);
     } catch (error) {
