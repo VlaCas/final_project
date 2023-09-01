@@ -37,6 +37,10 @@ function Register() {
 							<label htmlFor='email' className='text-[#AFAFAF]'>Email</label>
 							<input type='text' {...register('email', { required: { value: true, message: 'Por favor, ingrese su correo.' }, pattern: { value: /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, message: 'El correo debe tener un formato válido.' } })} placeholder='ejemplo@gmail.com' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
 						</div>
+						<div className='flex flex-col w-full gap-2'>
+							<label htmlFor='fecha' className='text-[#AFAFAF]'>Fecha de nacimiento</label>
+							<input type='date' {...register('date', { required: { value: true, message: 'Por favor, ingrese su fecha de nacimiento.' }, validate: (value) => {const birthdate = new Date(value); const currentDate = new Date(); const age = currentDate.getFullYear()-birthdate.getFullYear(); return age >= 18 || "Debes ser mayor de edad";}})} placeholder='01/09/2023' className='w-full p-2 border border-solid border-[#ffffff0d] rounded-lg outline-none bg-transparent placeholder-[#555555]' onChange={() => {}} onKeyDown={(e) => {if (e.key === 'Enter') {e.preventDefault(); onSubmit(); setClickSubmit((current) => !current)}}}/>
+						</div>
 						<div className='flex w-full gap-2'>
 							<div className='flex flex-col w-2/4 gap-6'>
 								<div className='flex flex-col gap-2'>
