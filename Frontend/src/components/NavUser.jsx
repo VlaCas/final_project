@@ -16,7 +16,7 @@ function NavUser() {
         <>
             <nav>
                 <Link to="/"><img src="./src/assets/Img/logo-digital.png" alt="logo" className='h-[90px] w-20 lg:w-36 ' /></Link>
-                <div className="flex gap-8 items-center">
+                <div className="flex items-center gap-8">
                     <HiOutlineShoppingBag className="text-white text-[2rem] shop-icon"></HiOutlineShoppingBag>
                     <div onClick={toggleMenu} className="text-white text-[2rem] shop-icon">
                         { showMenu ? <IoCloseOutline className="text-[#8A3BBF] text-4xl"/> : <HiOutlineMenu />}

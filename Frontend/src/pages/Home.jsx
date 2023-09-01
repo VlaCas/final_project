@@ -1,18 +1,22 @@
 import Footer from '../components/Footer';
 import Nav from '../components/Nav';
 import { Link } from "react-router-dom";
+import NavUser from '../components/NavUser';
+import { useAuth } from '../Context/AuthContext.jsx';
 import { BsCartCheck, BsWallet2 } from 'react-icons/bs';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import { AiOutlineDollar } from 'react-icons/ai';
 import '../style/home.css';
 
 function Home() {
+    
+    const { isAuthenticated } = useAuth(); 
 
     return (
         <>
             {/* First section */}
             <section className='h-screen bg-black sectionHome'>
-                <Nav></Nav>
+                {isAuthenticated ? <NavUser /> : <Nav />}
                 <div className='relative flex items-center justify-center w-full h-screen'>
                     <video src='./src/assets/Video/video3.mp4' autoPlay loop muted className='w-full h-full'></video>
                     <div className='absolute'>

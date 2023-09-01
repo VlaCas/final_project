@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { registerRequest, loginRequest, verifyRequest, sendEmailRequest, passwordResetRequest, newPasswordRequest} from '../Api/auth.js';
+import { registerRequest, loginRequest, logoutRequest, verifyRequest, sendEmailRequest, passwordResetRequest, newPasswordRequest} from '../Api/auth.js';
 import { confirmation } from '../Mails/confirmation.js';
 import { resetPassword } from '../Mails/restore-password';
 
@@ -120,6 +120,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      const logoutResponse = await logoutRequest();
+      //console.log(logoutResponse.data.message);
+
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const pwdResetRequest = async (data) => {
     try {
       setWaitingResponse(true);
@@ -205,7 +216,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, errors, resetForm, showPopupMessage, successMessage, waitingResponse, setShowPopupMessage, setErrors, setSuccessMessage, signup, signin, pwdResetRequest, newPwdRequest }}> 
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, errors, resetForm, showPopupMessage, successMessage, waitingResponse, setShowPopupMessage, setErrors, setSuccessMessage, signup, signin, logout, pwdResetRequest, newPwdRequest }}> 
       {children}
     </AuthContext.Provider>
   );

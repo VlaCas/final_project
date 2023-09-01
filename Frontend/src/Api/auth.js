@@ -4,6 +4,8 @@ export const registerRequest = (user) => axios.post('/registerUser', user);
 
 export const loginRequest = (user) => axios.post('/loginUser', user);
 
+export const logoutRequest = () => axios.post('/logoutUser');
+
 export const verifyRequest = () => axios.get('/verifyUserAuth');
 
 export const sendEmailRequest = (user) => axios.post('/sendEmailUser', user);
