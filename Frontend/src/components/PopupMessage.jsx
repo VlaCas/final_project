@@ -11,7 +11,7 @@ export const PopupMessage = ({ formErrors, submit }) => {
   
   const { errors, setErrors, showPopupMessage, setShowPopupMessage, successMessage, setSuccessMessage } = useAuth();
   const [animationInProgress, setAnimationInProgress] = useState(false);
-  const shouldShowMessage = formErrors.name?.message || formErrors.email?.message || formErrors.password?.message || formErrors.confirmPassword?.message || errors.email || errors.password;
+  const shouldShowMessage = formErrors.name?.message || formErrors.email?.message || formErrors.date?.message || formErrors.password?.message || formErrors.confirmPassword?.message || errors.email || errors.password;
 
   useEffect(() => {
     const wrapper = document.querySelector('.messageWrapper') ?? document.querySelector('.successMessageWrapper');

@@ -1,12 +1,15 @@
-import Footer from '../components/Footer';
-import Nav from '../components/Nav';
 import { Link } from "react-router-dom";
-import NavUser from '../components/NavUser';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { BsCartCheck, BsWallet2 } from 'react-icons/bs';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import { AiOutlineDollar } from 'react-icons/ai';
+import Footer from '../components/Footer';
+import Nav from '../components/Nav';
+import NavUser from '../components/NavUser';
 import '../style/home.css';
+import { cursorAnimation } from '../Libs/Animations/cursorAnimation.js'
+
+cursorAnimation();
 
 function Home() {
     

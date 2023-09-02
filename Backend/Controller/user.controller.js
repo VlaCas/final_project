@@ -5,7 +5,7 @@ import { sendEmail } from '../Libs/sendEmail.js';
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body; 
+    const { name, email, password, date } = req.body; 
 
     const emailInUse = await User.findOne({email})
     if (emailInUse) return res.status(409).send({ email: true, message: 'Este correo está en uso.' })
@@ -13,6 +13,7 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       name,
       email: email.toLowerCase(),
+      date,
       password
     });
 
@@ -64,10 +65,10 @@ export const logoutUser = (req, res) => {
   try {
     res.clearCookie('sessionToken');
 
-    return res.status(200).send({ message: 'Logout successful!' })
+    return res.status(200).send({ message: '¡Cierre de sesión exitoso!' })
   } catch (error) {
     console.error(error);
-    res.status(500).send({ message: "Error al cerrar sesión" })
+    res.status(500).send({ message: "Error al cerrar sesión." })
   }
 };
 

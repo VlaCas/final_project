@@ -7,8 +7,8 @@ const ShowMenu = (props) => {
 
     return(
         <>
-            <div showMenu={showMenu} className={`show-menu h-screen bg-[#0d0d0d] fixed w-full flex justify-center transition-all duration-500 ease-in-out z-10 ${ showMenu ? "right-0" : "-right-full"}`}>
-                <ul className="flex flex-col items-center justify-center gap-12 text-3xl font-semibold text-white">
+            <div showMenu={showMenu} className={`show-menu h-screen  fixed w-full flex justify-center transition-all duration-500 ease-in-out z-20 ${ showMenu ? "right-0" : "-right-full"}`}>
+                <ul className="flex flex-col items-center justify-center gap-12 text-5xl font-semibold text-white ">
                     <li className="hover:text-[#8A3BBF] transition duration-500 ease-in-out"><Link >Mi cuenta</Link></li>
                     <li className="hover:text-[#8A3BBF] transition duration-500 ease-in-out"><Link>Comprar</Link></li>
                     <li className="hover:text-[#8a3bbf] transition duration-500 ease-in-out"><Link>Ordenes</Link></li>

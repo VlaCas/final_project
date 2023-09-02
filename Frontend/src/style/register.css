@@ -147,6 +147,7 @@ input[type="date"]{
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   color: #555555;
+  cursor: pointer;
 }
 
 /* Loading */
