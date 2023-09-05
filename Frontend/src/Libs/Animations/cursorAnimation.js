@@ -25,14 +25,13 @@ export const cursorAnimation = () => {
     gsap.to(cursor, {
       left: mouseX - (size/2),
       top: mouseY - (size/2),
-      duration: 0.3, 
+      duration: 0.1, 
       ease: "power4.out" 
     });
     
     gsap.to(cursorB, {
       left: mouseX - (sizeF/2),
       top: mouseY - (sizeF/2),
-      delay: 0.1,
       stagger: -0.2
     })
   });

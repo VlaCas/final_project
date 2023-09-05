@@ -6,8 +6,9 @@ import { AiOutlineDollar } from 'react-icons/ai';
 import Footer from '../components/Footer';
 import Nav from '../components/Nav';
 import NavUser from '../components/NavUser';
-import '../style/home.css';
-import { cursorAnimation } from '../Libs/Animations/cursorAnimation.js'
+import { cursorAnimation } from '../Libs/Animations/cursorAnimation.js';
+import pageTransition from "../Libs/Animations/pageTransition"; 
+import '../style/home.css'; 
 
 cursorAnimation();
 
@@ -106,4 +107,4 @@ function Home() {
     );
 };
 
-export default Home; 
+export default pageTransition(Home); 

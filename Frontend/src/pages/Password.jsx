@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { PopupMessage } from '../components/PopupMessage.jsx';
+import pageTransition from "../Libs/Animations/pageTransition"; 
 import '../style/register.css';
 
 function Password() {
@@ -49,4 +50,4 @@ function Password() {
   );
 };
 
-export default Password; 
+export default pageTransition(Password); 

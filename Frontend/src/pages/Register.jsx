@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { PopupMessage } from '../components/PopupMessage.jsx';
+import pageTransition from "../Libs/Animations/pageTransition"; 
 import '../style/register.css';
 
 function Register() {
@@ -69,4 +70,4 @@ function Register() {
 	);
 };
 
-export default Register; 
+export default pageTransition(Register); 

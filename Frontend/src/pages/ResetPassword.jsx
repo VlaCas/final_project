@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { PopupMessage } from '../components/PopupMessage.jsx';
+import pageTransition from "../Libs/Animations/pageTransition"; 
 import '../style/register.css';
 
 function NewPassword() {
@@ -56,4 +57,4 @@ function NewPassword() {
   );
 };
 
-export default NewPassword; 
+export default pageTransition(NewPassword); 
